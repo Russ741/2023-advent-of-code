@@ -1,5 +1,4 @@
 from collections import defaultdict
-from pprint import pprint
 
 lines = None
 with open("input.txt") as infile:
@@ -19,7 +18,7 @@ def apply_mapping_to_range(r_f, r_l, s_f, s_l, offset):
         unmapped.append((o_l + 1, r_l))
     return unmapped, mapped
 
-# return mapped_from and mapped_to
+# return mapped_to
 def apply_map_to_ranges(map, unmapped):
     next_unmapped = []
     mapped = []
@@ -66,4 +65,4 @@ for line in lines:
         map.append((src_first, src_last, offset))
 
 ranges = sorted(ranges)
-print(ranges[0])
+print(f"\nLowest location: {ranges[0][0]}")
