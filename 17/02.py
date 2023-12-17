@@ -1,16 +1,15 @@
+import time
 from dataclasses import dataclass
-from enum import Enum, auto
+from enum import Enum, auto, global_enum
 
+start_time = time.time()
+
+@global_enum
 class Dir(Enum):
     U = auto()
     D = auto()
     L = auto()
     R = auto()
-
-U = Dir.U
-D = Dir.D
-L = Dir.L
-R = Dir.R
 
 @dataclass(frozen=True)
 class Node:
@@ -73,6 +72,8 @@ while to_explore:
     node = to_explore.pop()
     next_to_explore = explore(node)
     to_explore |= next_to_explore
+
+print(f"Runtime: {time.time() - start_time} seconds.")
 
 print(min(node_costs[Node(rows - 1, cols - 1, R)],
           node_costs[Node(rows - 1, cols - 1, D)]))
