@@ -1,6 +1,7 @@
 import time
 from dataclasses import dataclass
 from enum import Enum, auto, global_enum
+from heapq import heappush, heappop
 
 start_time = time.time()
 
@@ -16,6 +17,9 @@ class Node:
     r: int
     c: int
     d: Dir
+
+    def __lt__(a, b):
+        return a.r < b.r or a.r == b.r and a.c < b.c
 
 def inbounds(node):
     return node.r >= 0 and node.r < rows and node.c >= 0 and node.c < cols
@@ -47,7 +51,7 @@ def explore(cur):
             if next in node_costs and node_costs[next] <= next_cost:
                 continue
             node_costs[next] = next_cost
-            result.add(next)
+            result.add((next_cost, next))
     return result
 
 with open("input.txt") as infile:
@@ -63,15 +67,15 @@ node_costs = {
     Node(0, 0, D) : 0,
 }
 
-to_explore = set([
-    Node(0, 0, R),
-    Node(0, 0, D),
-])
+to_explore = []
+heappush(to_explore, (0, Node(0, 0, R)))
+heappush(to_explore, (0, Node(0, 0, D)))
 
 while to_explore:
-    node = to_explore.pop()
+    node = heappop(to_explore)[1]
     next_to_explore = explore(node)
-    to_explore |= next_to_explore
+    for next in next_to_explore:
+        heappush(to_explore, next)
 
 print(f"Runtime: {time.time() - start_time} seconds.")
 
