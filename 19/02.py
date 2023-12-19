@@ -37,14 +37,12 @@ def split_ranges(type_ranges, type, sign, qty):
         tr2[type] = (tr2[type][0], qty)
     return tr1, tr2
 
-start_tr = {'x': (0, 4000), 'm': (0, 4000), 'a': (0, 4000), 's': (0, 4000)}
-print(get_combos(start_tr))
+start_tr = {'x': (1, 4000), 'm': (1, 4000), 'a': (1, 4000), 's': (1, 4000)}
 workflow_trs = [("in", start_tr)]
 
 accepted = 0
 rejected = 0
 while workflow_trs:
-    print(f"Remaining: {workflow_trs}")
     wf, tr = workflow_trs.pop()
     print(f"{tr=} {wf=}")
     if wf == 'A':
@@ -63,4 +61,4 @@ while workflow_trs:
                     workflow_trs.append((new_flow, new_tr))
                 if get_combos(rem_tr) == 0:
                     break
-print(f"{accepted=} {rejected=} {accepted+rejected}")
+print(f"{accepted=}")
