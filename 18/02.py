@@ -74,142 +74,96 @@ for down, cc_pairs in down_to_lr_pairs.items():
     row_cc_pairs[down - min_down] = [(l - min_right, r - min_right) for l, r in cc_pairs]
 
 class Grid:
-    # mapping
-    #  from first row number
-    #  to a mapping
-    #   from first column number
-    #    to "trench/not trench"
-    rows = {}
+    # 2d grid
+    board = []
+
+    # from board col to coord
+    row_idxes = []
+    col_idxes = []
+
+    FLOODED = '!'
 
     def initialize_grid(self, col_list, row_list):
         col_list = sorted(col_list)
-        cells = {}
-        cells[col_list[0] - 1] = '.'
-        for col in col_list:
-            cells[col] = '.'
-            cells[col + 1] = '.'
+        self.col_idxes.append(col_list[0] - 1)
         row_list = sorted(row_list)
+        self.row_idxes.append(row_list[0] - 1)
 
-        rows = self.rows
-        rows[row_list[0] - 1] = cells.copy()
-        for row in row_list:
-            rows[row] = cells.copy()
-            rows[row + 1] = cells.copy()
+        for list, idxes in [(col_list, self.col_idxes), (row_list, self.row_idxes)]:
+            for col in list:
+                if col != idxes[-1]:
+                    idxes.append(col)
+                idxes.append(col + 1)
+
+        board = self.board
+        col_ct = len(self.col_idxes)
+        for _ in range(len(self.row_idxes)):
+            board.append(['.'] * col_ct)
 
     def print_grid(self):
-        print(self.rows[0].keys())
-        # for row_start, row in self.rows.items():
-        #     print(f"{row_start}: {row.values()}")
+        print(self.col_idxes)
+        for board_idx, first_row in enumerate(self.row_idxes):
+            print(f"{first_row:8}: {self.board[board_idx]}")
 
     def add_horizontal_line(self, row, l_col, r_col):
-        cells = self.rows[row]
-        for col in cells.keys():
-            if col >= l_col and col <= r_col:
-                cells[col] = '#'
+        for board_row, first_row in enumerate(self.row_idxes):
+            if first_row > row:
+                board_row = self.board[board_row - 1]
+                break
+        for board_col, first_col in enumerate(self.col_idxes):
+            if first_col > r_col:
+                break
+            if first_col >= l_col:
+                board_row[board_col] = '#'
 
     def add_vertical_line(self, col, u_row, d_row):
-        for row, cells in self.rows.items():
-            if row >= u_row and row <= d_row:
-                cells[col] = '#'
+        for board_col, first_col in enumerate(self.col_idxes):
+            if first_col > col:
+                board_col = board_col - 1
+                break
+        for board_row, first_row in enumerate(self.row_idxes):
+            if first_row > d_row:
+                break
+            if first_row >= u_row:
+                self.board[board_row][board_col] = '#'
+
+    def flood_outside(self):
+        to_explore = [(0, 0)]
+        while to_explore:
+            r, c = to_explore.pop()
+            row_ct = len(self.row_idxes)
+            col_ct = len(self.col_idxes)
+            if self.board[r][c] != '.':
+                continue
+            self.board[r][c] = self.FLOODED
+            for nr, nc in [(r-1, c), (r+1, c), (r, c-1), (r, c+1)]:
+                if nr < 0 or nr >= row_ct or nc < 0 or nc >= col_ct:
+                    continue
+                if self.board[nr][nc] != '.':
+                    continue
+                to_explore.append((nr, nc))
+
+    def get_non_flooded(self):
+        area = 0
+        for board_row, first_row in enumerate(self.row_idxes[:-1]):
+            height = self.row_idxes[board_row + 1] - first_row
+            for board_col, first_col in enumerate(self.col_idxes[:-1]):
+                if self.board[board_row][board_col] == self.FLOODED:
+                    continue
+                width = self.col_idxes[board_col + 1] - first_col
+                area += height * width
+        return area
 
 grid = Grid()
 grid.initialize_grid(col_rr_pairs.keys(), row_cc_pairs.keys())
+# grid.print_grid()
 for row, cc_pairs in row_cc_pairs.items():
     for l_col, r_col in cc_pairs:
         grid.add_horizontal_line(row, l_col, r_col)
 for col, rr_pairs in col_rr_pairs.items():
     for u_row, d_row in rr_pairs:
         grid.add_vertical_line(col, u_row, d_row)
-grid.print_grid()
-
-
-
-
-
-
-
-# row, col = row_col(0, 0)
-# col_to_bounds = {}
-
-# for row, cc_pairs in row_cc_pairs.items():
-#     for min_col, max_col in cc_pairs:
-#         col_to_bounds.setdefault(min_col, []).append(row)
-#         col_to_bounds.setdefault(max_col, []).append(-row)
-
-# col_to_bounds = {col: sorted(col_to_bounds[col]) for col in sorted(col_to_bounds.keys())}
-
-# area = 0
-# rows = set()
-# last_col = 0
-# height = 0
-# removed_rows = set()
-# for col in col_to_bounds.keys():
-#     # Complete all the rectangles before this column
-#     width = col - last_col - 1
-#     rect_area = height * width
-#     area += rect_area
-#     print(f"col {last_col} to {col-1} ({width}): {height=} {rect_area=} -> {area}")
-
-#     # Add new rows
-#     added_rows = [row for row in col_to_bounds[col] if row > 0]
-#     print(f"col {col}: {added_rows=}")
-#     rows.update(added_rows)
-
-#     # Calculate height at this column
-#     height = 0
-#     last_row = 0
-#     counting = False
-#     row_list = sorted(rows):
-#     for idx, row in enumerate(row_list):
-#         if counting:
-#             height += row - last_row + 1
-#             if row not in
-#             counting = False
-#         else:
-#             counting = True
-#         last_row = row
-#     area += height
-#     print(f"col {col}: added {height=} -> {area}")
-
-#     # Remove rows
-#     removed_rows = [-row for row in col_to_bounds[col] if row < 0]
-#     print(f"col {col}: {removed_rows=}")
-#     rows.difference_update(removed_rows)
-
-#     last_col = col
-
-# print(area)
-
-# # last_col = None
-# # cur_line_rows = set()
-
-# # area = 0
-
-# # for col in col_to_bounds.keys():
-# #     print(f"{col} {col_rr_pairs[col]}")
-# #     if last_col:
-# #         prev_rows = sorted(cur_line_rows)
-# #         width = col - last_col
-# #         for top, bottom in zip(prev_rows[0::2], prev_rows[1::2]):
-# #             height = bottom - top + 1
-# #             rect_area = width * height
-# #             print(f"Adding {rect_area=} ({width} x {height}) to {area}")
-# #             area += rect_area
-
-# #     starting_line_rows = [row for row in col_to_bounds[col] if row > 0]
-# #     starting_rows = set(starting_line_rows)
-
-# #     for top, bottom in col_rr_pairs[col]:
-# #         if top in starting_line_rows or bottom in starting_line_rows:
-# #             print(f"Adding linearea {bottom-top} ({bottom} - {top}) to {area}")
-# #             area += bottom - top
-# #         if top in starting_line_rows and bottom in starting_line_rows:
-# #             print(f"Adding pixel to {area}")
-# #             area += 1
-
-# #     cur_line_rows.update(starting_line_rows)
-# #     ending_line_rows = [-row for row in col_to_bounds[col] if row < 0]
-# #     cur_line_rows.difference_update(ending_line_rows)
-
-# #     last_col = col
-# # print(area)
+# grid.print_grid()
+grid.flood_outside()
+# grid.print_grid()
+print(grid.get_non_flooded())
