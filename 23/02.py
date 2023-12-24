@@ -63,6 +63,17 @@ for r in range(rows):
 print(len(adj_list))
 print(adj_list)
 
+# Print compressed graph in .dot format for further analysis
+print("\n---\n")
+print("graph G {")
+visited = set()
+for s_idx, (src, adj) in enumerate(adj_list.items()):
+    visited.add(src)
+    for d_idx, (dst, dist) in enumerate(adj.items()):
+        if dst not in visited:
+            print(f"  r{src[0]}c{src[1]} -- r{dst[0]}c{dst[1]}")
+print("}")
+
 visited = set()
 
 def recurse(r, c):
