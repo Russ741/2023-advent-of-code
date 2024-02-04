@@ -14,7 +14,7 @@ Advent of Code is a series of Christmas-themed programming challenges from Dec. 
 
 ## Tool-Assisted Solves
 
-In Advent of Code, the contestant only needs to come up with a solution for a single specific, known input, and they do not need to "show their work". \n
-Contrast with LeetCode, etc. where the candidate must provide a self-contained piece of code with limited dependencies that produces the right answers for a test suite of opaque inputs spanning the problem space. \n
-Advent of Code inputs are also sometimes structured to yield an answer more readily than the general formulation presented in the problem.
+In Advent of Code, the contestant only needs to come up with a solution for a single specific, known input, and they do not need to "show their work". <br />
+Contrast with LeetCode, etc. where the candidate must provide a self-contained piece of code with limited dependencies that produces the right answers for a test suite of opaque inputs spanning the problem space. <br />
+Advent of Code inputs are also sometimes structured to yield an answer more readily than the general formulation presented in the problem. <br />
 As such, it lends itself to tool-assisted (semi-automated) solves.
