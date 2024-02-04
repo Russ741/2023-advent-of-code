@@ -8,10 +8,10 @@
 
 ## Magic Numbers
 
-**131**: The width and height of the grid.
-**26501365**: The number of steps the agent will take.
-**202300**: int(steps / grid width)
-**65**: steps % grid width
+* **131**: The width and height of the grid.
+* **26501365**: The number of steps the agent will take.
+* **202300**: int(steps / grid width)
+* **65**: steps % grid width
   * Note that this is also the coordinate of the the center of the grid
 
 ## My Solution
