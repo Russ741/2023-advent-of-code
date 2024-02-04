@@ -24,3 +24,22 @@
 6) Add a polynomial trendline of degree 2 to the plot.
     * Formula: reachable cells = 15197 * x^2 + 15303 * x + 3868
 8) Put the coefficients for the trendline back into Python and solve for x = 202300 (which is (steps - 65) / 131)
+
+## Towards a fully-generalizable solution
+
+If the input was less carefully crafted - i.e. we could not take gutters, symmetric tile dimensions, central starting position, etc. for granted:
+* The cost to fully explore a single tile may vary (imagine a maze running from the middle to the border)
+* Horizontal and vertical path distance may differ (in the extreme, it may not be possible to leave the tile in one or more directions)
+* Intuitively, an overall diamond pattern of tiles (possibly with skew) would generally occur, but the edge tiles' coverage may not be as cleanly defined.
+
+One approach I might take to handle this:
+* Determine the distribution of positions reached from the initial position as a function of step count.
+  * Distinguish between positions reached in the initial tile vs. its tesselations.
+  * Make particular note of:
+    * any positions that are adjacent to open positions in one or more adjacent tiles
+    * any positions that may only be reachable by traversing another tile then returning
+    * the point at which the initial tile is "fully explored"
+* Determine the distribution of positions and distances reached from each open-adjacent edge position.
+  * Ideally, a small number of initial edge positions "dominate" by some combination of being reached early and being connected to the rest of the positions in the tile (and presumably itself in the next tile)
+
+With these patterns, it should be possible to calculate how many tiles are fully explored, and with some effort, a pattern of exploration along the tiles on the edge of the diamond should be discoverable to use.
