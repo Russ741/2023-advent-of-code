@@ -22,6 +22,8 @@ Advent of Code inputs are also sometimes structured to yield an answer more read
 As such, it lends itself to tool-assisted (semi-automated) solves.
 
 Specific examples:
+* Day 8 Part 2 (solution lost in a Git mishap): My solution here relied on several simplifying aspects of the input data (overall structure, plus position of Z being equal to loop length) to obtain the answer with a plain [least common multiple](https://en.wikipedia.org/wiki/Least_common_multiple).
+  * I think some variation on the Chinese Remainder Theorem would handle cases where the lead-ins and Z positions were less carefully coordinated.
 * [Day 21 Part 2](https://github.com/Russ741/2023-advent-of-code/blob/main/21/02.py): This was an involved Python -> Google Sheets -> Python process (detailed [here](https://github.com/Russ741/2023-advent-of-code/blob/main/21/README.md)).
   * The formula derived by polynomial regression could also be found by summing contributions from core (completely reachable) and edge (partially reachable) grid tiles - no Google Sheets required.
   * Thoughts about a potential fully-generalizable solution are in the [writeup](https://github.com/Russ741/2023-advent-of-code/blob/main/21/README.md).
