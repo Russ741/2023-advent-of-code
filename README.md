@@ -26,7 +26,7 @@ Specific examples:
   * I think some variation on the [Chinese Remainder Theorem](https://en.wikipedia.org/wiki/Chinese_remainder_theorem) would handle cases where the lead-ins and Z positions were less carefully coordinated.
 * [Day 21 Part 2](https://github.com/Russ741/2023-advent-of-code/blob/main/21/02.py): This was an involved Python -> Google Sheets -> Python process (detailed [here](https://github.com/Russ741/2023-advent-of-code/blob/main/21/README.md)).
   * The formula derived by polynomial regression could also be found by summing contributions from core (completely reachable) and edge (partially reachable) grid tiles - no Google Sheets required.
-  * Thoughts about a potential fully-generalizable solution are in the [writeup](https://github.com/Russ741/2023-advent-of-code/blob/main/21/README.md).
+  * Thoughts about a potential fully-generalizable solution are in my [writeup](https://github.com/Russ741/2023-advent-of-code/blob/main/21/README.md).
 * [Day 24 Part 2](https://github.com/Russ741/2023-advent-of-code/blob/main/24/02-sympy.py): I used sympy to solve a system of equations for a few hailstones.
   * There's presumably an algebraic approach to combining the hailstones' paths without using this library.
 * [Day 25 part 1](https://github.com/Russ741/2023-advent-of-code/blob/main/25/01.py): I found the three edges to cut by [graphing it in graphviz](https://github.com/Russ741/2023-advent-of-code/blob/main/25/output.svg) and manual inspection.
